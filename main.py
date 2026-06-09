@@ -1,19 +1,19 @@
-from fastapi import FastAPI
-import joblib
-import pandas as pd
-
-app = FastAPI()
-
-model = joblib.load("apmc_price_model.pkl")
-
-@app.get("/")
-def home():
-    return {"status": "running"}
-
 @app.post("/predict")
 def predict(data: dict):
 
-    df = pd.DataFrame([data])
+    columns = [
+        "District",
+        "Commodity",
+        "Min_Price",
+        "Max_Price",
+        "lag_1",
+        "lag_7",
+        "lag_30",
+        "rolling_7",
+        "rolling_30"
+    ]
+
+    df = pd.DataFrame([data])[columns]
 
     prediction = model.predict(df)[0]
 
