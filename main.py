@@ -1,3 +1,15 @@
+from fastapi import FastAPI
+import pandas as pd
+import joblib
+
+app = FastAPI()
+
+model = joblib.load("apmc_price_model.pkl")
+
+@app.get("/")
+def home():
+    return {"status": "running"}
+
 @app.post("/predict")
 def predict(data: dict):
 
